@@ -1,0 +1,11 @@
+C:\Users\bofcarbon1\Documents\Visual Studio 2017\Projects\SmartReferralApiCore2\SmartReferralApiCore2\bin\Debug\netcoreapp2.0\SmartReferralApiCore2.deps.json
+C:\Users\bofcarbon1\Documents\Visual Studio 2017\Projects\SmartReferralApiCore2\SmartReferralApiCore2\bin\Debug\netcoreapp2.0\SmartReferralApiCore2.runtimeconfig.json
+C:\Users\bofcarbon1\Documents\Visual Studio 2017\Projects\SmartReferralApiCore2\SmartReferralApiCore2\bin\Debug\netcoreapp2.0\SmartReferralApiCore2.runtimeconfig.dev.json
+C:\Users\bofcarbon1\Documents\Visual Studio 2017\Projects\SmartReferralApiCore2\SmartReferralApiCore2\bin\Debug\netcoreapp2.0\SmartReferralApiCore2.dll
+C:\Users\bofcarbon1\Documents\Visual Studio 2017\Projects\SmartReferralApiCore2\SmartReferralApiCore2\bin\Debug\netcoreapp2.0\SmartReferralApiCore2.pdb
+C:\Users\bofcarbon1\Documents\Visual Studio 2017\Projects\SmartReferralApiCore2\SmartReferralApiCore2\obj\Debug\netcoreapp2.0\SmartReferralApiCore2.csproj.CoreCompileInputs.cache
+C:\Users\bofcarbon1\Documents\Visual Studio 2017\Projects\SmartReferralApiCore2\SmartReferralApiCore2\obj\Debug\netcoreapp2.0\SmartReferralApiCore2.AssemblyInfoInputs.cache
+C:\Users\bofcarbon1\Documents\Visual Studio 2017\Projects\SmartReferralApiCore2\SmartReferralApiCore2\obj\Debug\netcoreapp2.0\SmartReferralApiCore2.AssemblyInfo.cs
+C:\Users\bofcarbon1\Documents\Visual Studio 2017\Projects\SmartReferralApiCore2\SmartReferralApiCore2\obj\Debug\netcoreapp2.0\SmartReferralApiCore2.dll
+C:\Users\bofcarbon1\Documents\Visual Studio 2017\Projects\SmartReferralApiCore2\SmartReferralApiCore2\obj\Debug\netcoreapp2.0\SmartReferralApiCore2.pdb
+C:\Users\bofcarbon1\Documents\Visual Studio 2017\Projects\SmartReferralApiCore2\SmartReferralApiCore2\obj\Debug\netcoreapp2.0\SmartReferralApiCore2.csprojResolveAssemblyReference.cache
