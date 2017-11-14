@@ -6,13 +6,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SmartReferralApiCore2.Models
 {
-    public class Skill
+    public class Criteria
     {
         [Key]
-        public int Skill_ID { get; set; }
-        [Required]
-        public string Skill_Name { get; set; }
-        [Required]
-        public int Skill_Category_ID { get; set; }
+        public int Criteria_ID { get; set; }
+        public string Criteria_name { get; set; }
+        public int Criteria_pct { get; set; }
     }
 }

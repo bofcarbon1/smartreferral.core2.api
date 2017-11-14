@@ -2,40 +2,34 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Query.Internal;
-using System.Net;
-using System.Net.Http;
 using SmartReferralApiCore2.EFHelpers;
 using SmartReferralApiCore2.Models;
-using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Authorization;
 
 namespace SmartReferralApiCore2.Controllers
 {
-
     [Produces("application/json")]
-    public class CandidateController : Controller
+    //[Route("api/Skill")]
+    public class SkillController : Controller
     {
         private readonly SmartReferralContext _context;
 
-        public CandidateController(SmartReferralContext context)
+        public SkillController(SmartReferralContext context)
         {
-            _context = context;         
+            _context = context;
         }
 
-        /// Get all candidates
-        [Route("api/[controller]/candidates")]
+        /// Get all skills via EF repository
+        [Route("api/[controller]/skills")]
         [HttpGet]
-        public object Get(string filter)
+        public object GetSkill(string filter)
         {
-            //Call the Condidates method of the CandidateEFRepository to access
-            //candidate data via entity framework Core2 and the database context
             try
             {
-                CandidateEFRepository efcr = new CandidateEFRepository();
-                IQueryable<Candidate> result = efcr.Candidates(_context, filter)
-                    .OrderBy(p => p.Candidate_name);
+                SkillEFRepository efcr = new SkillEFRepository();
+                IQueryable<Skill> result = efcr.Skills(_context, filter)
+                    .OrderBy(p => p.Skill_Name);
                 if (result == null)
                 {
                     return new { StatusCode = StatusCode(201) };
@@ -50,17 +44,15 @@ namespace SmartReferralApiCore2.Controllers
 
         }
 
-        ////Get candidate by id
-        [Route("api/[controller]/candidate/{id}")]
+        ////Get skill by id via EF repository
+        [Route("api/[controller]/skill/{id}")]
         [HttpGet]
-        public IActionResult GetById(int id)
+        public IActionResult GetSkillById(int id)
         {
-            //Call the Condidates method of the CandidateEFRepository to access
-            //candidate data via entity framework Core2 and the database context
             try
             {
-                CandidateEFRepository efcr = new CandidateEFRepository();
-                Candidate result = efcr.Candidate(_context, id);                    
+                SkillEFRepository efcr = new SkillEFRepository();
+                Skill result = efcr.Skill(_context, id);
                 if (result == null)
                 {
                     return new ObjectResult(StatusCode(201));
@@ -74,17 +66,85 @@ namespace SmartReferralApiCore2.Controllers
             }
         }
 
-        ////Add a new candidate
-        [Route("api/[controller]/addcandidate")]
-        [HttpPut]
-        public object Add([FromBody]Candidate candidate)
+        ////Get skills by category id via EF repository
+        [Route("api/[controller]/skillsbycategory/{id}")]
+        [HttpGet]
+        public object GetSkillByCategoryId(int id)
         {
             try
             {
-                CandidateEFRepository efcr = new CandidateEFRepository();
-                candidate.Candidate_ID = 0;
+                SkillEFRepository efcr = new SkillEFRepository();
+                IQueryable<Skill> result = efcr.SkillByCategory(_context, id)
+                     .OrderBy(p => p.Skill_Name);
+                if (result == null)
+                {
+                    return new { StatusCode = StatusCode(201) };
+                }
+                return new { result = result };
+            }
+            catch (Exception ex)
+            {
+                string logthis = ex.Message;
+                return new { result = BadRequest() };
+            }
+        }
+
+        ////Get skills available for a candidate id via EF repository
+        [Route("api/[controller]/skillsavailableforcandidate/{id}")]
+        [HttpGet]
+        public object GetSkillsAvailableForCandidate(int id)
+        {
+            try
+            {
+                SkillEFRepository efcr = new SkillEFRepository();
+                IQueryable result = efcr.SkillsAvailableForCandidate(_context, id);
+                     //.OrderBy(p => p.Skill_Name);
+                if (result == null)
+                {
+                    return new { StatusCode = StatusCode(201) };
+                }
+                return new { result = result };
+            }
+            catch (Exception ex)
+            {
+                string logthis = ex.Message;
+                return new { result = BadRequest() };
+            }
+        }
+
+        ////Get skill matche counts for all candidates via EF repository
+        [Route("api/[controller]/skillsmatchcounts")]
+        [HttpPut]
+        public object GetSkillMatchCounts([FromBody]int[] skillids)
+        {
+            try
+            {
+                SkillEFRepository efcr = new SkillEFRepository();
+                IQueryable result = efcr.SkillsMatchCount(_context, skillids);
+                if (result == null)
+                {
+                    return new { StatusCode = StatusCode(201) };
+                }
+                return new { result = result };
+            }
+            catch (Exception ex)
+            {
+                string logthis = ex.Message;
+                return new { result = BadRequest() };
+            }
+        }
+
+        ////Add a new skill 
+        [Route("api/[controller]/addskill")]
+        [HttpPut]
+        public object AddSkill([FromBody]Skill skill)
+        {
+            try
+            {
+                SkillEFRepository efcr = new SkillEFRepository();
+                skill.Skill_ID = 0;
                 string responseStatus = "";
-                string result = efcr.SaveCandidate(_context, candidate);
+                string result = efcr.SaveSkill(_context, skill);
                 switch (result)
                 {
                     case null:
@@ -102,8 +162,8 @@ namespace SmartReferralApiCore2.Controllers
                             responseStatus = "201";
                             break;
                         }
-                }                
-                return new { responseStatus = responseStatus};
+                }
+                return new { responseStatus = responseStatus };
             }
             catch (Exception ex)
             {
@@ -113,17 +173,17 @@ namespace SmartReferralApiCore2.Controllers
         }
 
 
-        ////Modify a candidate
-        [Route("api/[controller]/updcandidate/{id}")]
+        ////Modify a skill 
+        [Route("api/[controller]/updskill/{id}")]
         [HttpPost]
-        public object Update(int id, [FromBody]Candidate candidate)
-        { 
+        public object UpdateSkill(int id, [FromBody]Skill skill)
+        {
             try
             {
-                CandidateEFRepository efcr = new CandidateEFRepository();
-                candidate.Candidate_ID = id;
+                SkillEFRepository efcr = new SkillEFRepository();
+                skill.Skill_ID = id;
                 string responseStatus = "";
-                string result = efcr.SaveCandidate(_context, candidate);
+                string result = efcr.SaveSkill(_context, skill);
                 switch (result)
                 {
                     case null:
@@ -142,7 +202,7 @@ namespace SmartReferralApiCore2.Controllers
                             break;
                         }
                 }
-                return new { responseStatus = responseStatus };               
+                return new { responseStatus = responseStatus };
             }
             catch (Exception ex)
             {
@@ -152,180 +212,16 @@ namespace SmartReferralApiCore2.Controllers
         }
 
 
-        ////Delete a candidate
-        [Route("api/[controller]/delcandidate/{id}")]
+        ////Delete a skill
+        [Route("api/[controller]/delskill/{id}")]
         [HttpDelete]
-        public object Delete(int id)
+        public object DeleteSkill(int id)
         {
             try
             {
-                CandidateEFRepository efcr = new CandidateEFRepository();
+                SkillEFRepository efcr = new SkillEFRepository();
                 string responseStatus = "";
-                string result = efcr.DeleteCandidate(_context, id);
-                switch (result)
-                {
-                    case null:
-                        {
-                            responseStatus = "400";
-                            break;
-                        }
-                    case "":
-                        {
-                            responseStatus = "400";
-                            break;
-                        }
-                    case "OK":
-                        {
-                            responseStatus = "200";
-                            break;
-                        }
-                }
-                return new { responseStatus = responseStatus };
-
-            }
-            catch (Exception ex)
-            {
-                string logthis = ex.Message;
-                return new { responseStatus = BadRequest()};
-            }
-        }
-
-        /// Get candidates skills
-        [Route("api/[controller]/candidateskills/{filter}/{id}")]
-        [HttpGet]
-        public object GetCandidateSkills(string filter, int id)
-        {
-            //Call the CondidateSkills method of the CandidateEFRepository to access
-            //candidate skill data via entity framework Core2 and the database context
-            try
-            {
-                CandidateEFRepository efcr = new CandidateEFRepository();
-                IQueryable result
-                    = efcr.CandidateSkills(_context, filter, id);
-                    //.OrderBy(p => p.Candidate_name);
-                if (result == null)
-                {
-                    return new { StatusCode = StatusCode(201) };
-                }
-                return new { result = result };
-            }
-            catch (Exception ex)
-            {
-                string logthis = ex.Message;
-                return new { StatusCode = StatusCode(500), ErrorMsg = ex.Message };
-            }
-
-        }
-
-        ////Get candidate skill by id
-        [Route("api/[controller]/candidateskill/{id}")]
-        [HttpGet]
-        public IActionResult GetCandidateById(int id)
-        {
-            //Call the Condidate skill by ID method of the CandidateEFRepository to access
-            //candidate data via entity framework Core2 and the database context
-            try
-            {
-                CandidateEFRepository efcr = new CandidateEFRepository();
-                CandidateSkill result = efcr.CandidateSkill(_context, id);
-                if (result == null)
-                {
-                    return new ObjectResult(StatusCode(201));
-                }
-                return new ObjectResult(result);
-            }
-            catch (Exception ex)
-            {
-                string logthis = ex.Message;
-                return new ObjectResult(ex.Message);
-            }
-        }
-
-        ////Add candidate skills
-        [Route("api/[controller]/addcandidateskills/{id}")]
-        [HttpPut]
-        public object AddCandidateSkills(int id, [FromBody]int[] newSkills)
-        {
-            try
-            {
-                CandidateEFRepository efcr = new CandidateEFRepository();
-                string responseStatus = "";
-                string result = efcr.AddCandidateSkills(_context, id, newSkills);
-                switch (result)
-                {
-                    case null:
-                        {
-                            responseStatus = "400";
-                            break;
-                        }
-                    case "":
-                        {
-                            responseStatus = "400";
-                            break;
-                        }
-                    case "OK":
-                        {
-                            responseStatus = "0";
-                            break;
-                        }
-                }
-                return new { responseStatus = responseStatus };
-            }
-            catch (Exception ex)
-            {
-                string logthis = ex.Message;
-                return new { responseStatue = BadRequest() };
-            }
-        }
-
-        ////Modify a candidate skill
-        [Route("api/[controller]/updcandidateskill/{id}")]
-        [HttpPost]
-        public object UpdateCandidateSkill(int id, [FromBody]CandidateSkill candidateskill)
-        {
-            try
-            {
-                CandidateEFRepository efcr = new CandidateEFRepository();
-                candidateskill.Candidate_Skill_ID = id;
-                string responseStatus = "";
-                string result = efcr.SaveCandidateSkill(_context, candidateskill);
-                switch (result)
-                {
-                    case null:
-                        {
-                            responseStatus = "400";
-                            break;
-                        }
-                    case "":
-                        {
-                            responseStatus = "400";
-                            break;
-                        }
-                    case "OK":
-                        {
-                            responseStatus = "200";
-                            break;
-                        }
-                }
-                return new { responseStatus = responseStatus };
-            }
-            catch (Exception ex)
-            {
-                string logthis = ex.Message;
-                return new { responseStatue = BadRequest() };
-            }
-        }
-
-        ////Delete a candidate skill
-        [Route("api/[controller]/delcandidateskill/{id}")]
-        [HttpDelete]
-        public object DeleteCandidateSkill(int id)
-        {
-            try
-            {
-                CandidateEFRepository efcr = new CandidateEFRepository();
-                string responseStatus = "";
-                string result = efcr.DeleteCandidateSkill(_context, id);
+                string result = efcr.DeleteSkill(_context, id);
                 switch (result)
                 {
                     case null:
@@ -354,7 +250,167 @@ namespace SmartReferralApiCore2.Controllers
             }
         }
 
+        /// Get all skill categoriess via EF repository
+        [Route("api/[controller]/categories")]
+        [HttpGet]
+        public object GetCategory(string filter)
+        {
+            try
+            {
+                SkillCategoryEFRepository efcr = new SkillCategoryEFRepository();
+                IQueryable<SkillCategory> result = efcr.SkillCategories(_context, filter)
+                    .OrderBy(p => p.Skill_Category_Name);
+                if (result == null)
+                {
+                    return new { StatusCode = StatusCode(201) };
+                }
+                return new { result = result };
+            }
+            catch (Exception ex)
+            {
+                string logthis = ex.Message;
+                return new { StatusCode = StatusCode(500), ErrorMsg = ex.Message };
+            }
+
+        }
+
+        ////Get skill category by id via EF repository
+        [Route("api/[controller]/category/{id}")]
+        [HttpGet]
+        public IActionResult GetCategoryById(int id)
+        {
+            try
+            {
+                SkillCategoryEFRepository efcr = new SkillCategoryEFRepository();
+                SkillCategory result = efcr.SkillCategory(_context, id);
+                if (result == null)
+                {
+                    return new ObjectResult(StatusCode(201));
+                }
+                return new ObjectResult(result);
+            }
+            catch (Exception ex)
+            {
+                string logthis = ex.Message;
+                return new ObjectResult(ex.Message);
+            }
+        }
+
+        ////Add a new skill category
+        [Route("api/[controller]/addcategory")]
+        [HttpPut]
+        public object AddCategory([FromBody]SkillCategory skillcategory)
+        {
+            try
+            {
+                SkillCategoryEFRepository efcr = new SkillCategoryEFRepository();
+                skillcategory.Skill_Category_ID = 0;
+                string responseStatus = "";
+                string result = efcr.SaveSkillCategory(_context, skillcategory);
+                switch (result)
+                {
+                    case null:
+                        {
+                            responseStatus = "400";
+                            break;
+                        }
+                    case "":
+                        {
+                            responseStatus = "400";
+                            break;
+                        }
+                    case "OK":
+                        {
+                            responseStatus = "201";
+                            break;
+                        }
+                }
+                return new { responseStatus = responseStatus };
+            }
+            catch (Exception ex)
+            {
+                string logthis = ex.Message;
+                return new ObjectResult(ex.Message);
+            }
+        }
+
+
+        ////Modify a skill category
+        [Route("api/[controller]/updcategory/{id}")]
+        [HttpPost]
+        public object UpdateCategory(int id, [FromBody]SkillCategory skillcategory)
+        {
+            try
+            {
+                SkillCategoryEFRepository efcr = new SkillCategoryEFRepository();
+                skillcategory.Skill_Category_ID = id;
+                string responseStatus = "";
+                string result = efcr.SaveSkillCategory(_context, skillcategory);
+                switch (result)
+                {
+                    case null:
+                        {
+                            responseStatus = "400";
+                            break;
+                        }
+                    case "":
+                        {
+                            responseStatus = "400";
+                            break;
+                        }
+                    case "OK":
+                        {
+                            responseStatus = "200";
+                            break;
+                        }
+                }
+                return new { responseStatus = responseStatus };
+            }
+            catch (Exception ex)
+            {
+                string logthis = ex.Message;
+                return new { responseStatue = BadRequest() };
+            }
+        }
+
+
+        ////Delete a skillcategory
+        [Route("api/[controller]/delcategory/{id}")]
+        [HttpDelete]
+        public object DeleteCategory(int id)
+        {
+            try
+            {
+                SkillCategoryEFRepository efcr = new SkillCategoryEFRepository();
+                string responseStatus = "";
+                string result = efcr.DeleteSkillCategory(_context, id);
+                switch (result)
+                {
+                    case null:
+                        {
+                            responseStatus = "400";
+                            break;
+                        }
+                    case "":
+                        {
+                            responseStatus = "400";
+                            break;
+                        }
+                    case "OK":
+                        {
+                            responseStatus = "200";
+                            break;
+                        }
+                }
+                return new { responseStatus = responseStatus };
+
+            }
+            catch (Exception ex)
+            {
+                string logthis = ex.Message;
+                return new { responseStatus = BadRequest() };
+            }
+        }
 
     }
-
 }

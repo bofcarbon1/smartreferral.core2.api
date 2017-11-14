@@ -9,17 +9,16 @@ namespace SmartReferralApiCore2.Models
     public class CandidateSkill
     {
         [Key]
-        public int ID { get; set; }
+        public int Candidate_Skill_ID { get; set; }
         [Required]
-        public int CandidateID { get; set; }
+        public int Candidate_ID { get; set; }
         [Required]
-        public int SkillID { get; set; }
+        public int Skill_ID { get; set; }
         [Range (1, 5)]
-        public int Candidate_Skill_Level { get; set; }
+        public int Level { get; set; }
         [Range(1, 25)]
-        public int Candidate_Skill_Years { get; set; }
-
-        public ICollection<CandidateSkill> CandidateSkills { get; set; }
-
+        public int Years_Used { get; set; }
+        public string Last_Year_Used { get; set; }
+        
     }
 }

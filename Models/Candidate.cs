@@ -18,8 +18,9 @@ namespace SmartReferralApiCore2.Models
         [Required]
         public string Candidate_email { get; set; }
         public string Candidate_note { get; set; }
-
-        //public ICollection<Candidate> Candidates { get; set; }
-
+        public int Candidate_screen_level { get; set; }
+        public int Candidate_code_sample_level { get; set; }
+        public int Candidate_video_level { get; set; }
+        public int Candidate_skill_level { get; set; }
     }
 }

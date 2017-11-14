@@ -17,14 +17,16 @@ namespace SmartReferralApiCore2.EFHelpers
         public DbSet<Candidate> Candidates { get; set; }
         public DbSet<CandidateSkill> CandidateSkills { get; set; }
         public DbSet<Skill> Skills { get; set; }
+        public DbSet<SkillCategory> SkillCategories { get; set; }
+        public DbSet<Criteria> Criteria { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
-
             modelBuilder.Entity<Candidate>().ToTable("Candidate");
             modelBuilder.Entity<CandidateSkill>().ToTable("CandidateSkill");
             modelBuilder.Entity<Skill>().ToTable("Skill");
+            modelBuilder.Entity<SkillCategory>().ToTable("SkillCategory");
+            modelBuilder.Entity<Criteria>().ToTable("Criteria");
         }
     }
 }

@@ -50,8 +50,7 @@ namespace SmartReferralApiCore2
                     Title = "SmartReferralApiCore2",
                     Version = "v1",
                     TermsOfService = "None",
-                    Contact = new Contact { Name = "Brian Quinn", Email = "", Url = "https://twitter.com/bofcarbon1" },
-                    License = new License { Name = "Use under LICX", Url = "https://example.com/license" }
+                    Contact = new Contact { Name = "Brian Quinn", Email = "", Url = "https://github.com/bofcarbon1/smartreferral.core2.api" }
                 });
             });           
 
