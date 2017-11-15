@@ -21,18 +21,20 @@ Application Prerequisites
     o	Candidate skills and levels
     
 Key Features
+
 The main purpose of SmarReferralCor2Api is to handle request for data in the SmartReferral database. 
 This includes the following
+
   •	Get, add, modify and delete candidates
   •	Get, add, modify or delete skills
   •	Get, add, modify or delete candidate skills
   
 Application Modules
 
-  •	Controllers
-    o	Handle Http requests with json responses
-    o	CandidateController
-      	Calls methods in CandidateEFRepository
+    Controllers
+      Handle Http requests with json responses
+      CandidateController
+        Calls methods in CandidateEFRepository
     o	SkillController
       	Calls methods in SkillEFRepository
     o	CandidateSkillController
