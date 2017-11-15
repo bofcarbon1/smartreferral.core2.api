@@ -28,6 +28,7 @@ This includes the following
   •	Get, add, modify or delete candidate skills
   
 Application Modules
+
   •	Controllers
     o	Handle Http requests with json responses
     o	CandidateController
