@@ -20,7 +20,7 @@ Application Prerequisites
         •	CandidateSkill
     o	Candidate skills and levels
     
-Key Features
+## Key Features
 
 The main purpose of SmarReferralCor2Api is to handle request for data in the SmartReferral database. 
 This includes the following
@@ -29,33 +29,33 @@ This includes the following
   •	Get, add, modify or delete skills
   •	Get, add, modify or delete candidate skills
   
-Application Modules
+## Application Modules
 
     Controllers
       Handle Http requests with json responses
       CandidateController
         Calls methods in CandidateEFRepository
-    o	SkillController
-      	Calls methods in SkillEFRepository
-    o	CandidateSkillController
-      	Calls methods in CandidateSkillEFRepository 
-  •	Interfaces
-    o	ICandidateRepository
-    o	ISkillRepository
-    o	ICandidateSkillRepository
-  •	Models
-    o	Candidate
-    o	Skill
-    o	CandidateSkill
-  •	EFHelpers
-    o	SmartReferralContext
-      	Entity Framework context mappings to class models
-    o	CandidateEFRepository
-      	Handle all data extracts and modifications for candidate data 
-    o	SkillEFRepository
-      	Handle all data extracts and modifications for skills
-    o	CandidateSkillEFRepository
-      	Handle all data extracts and modifications for candidate skills
+    	SkillController
+      	Calls methods in SkillEFRepository
+    	CandidateSkillController
+      	Calls methods in CandidateSkillEFRepository 
+  	Interfaces
+    	ICandidateRepository
+    	ISkillRepository
+    	ICandidateSkillRepository
+  	Models
+    	Candidate
+    	Skill
+    	CandidateSkill
+  	EFHelpers
+    	SmartReferralContext
+      	Entity Framework context mappings to class models
+    	CandidateEFRepository
+      	Handle all data extracts and modifications for candidate data 
+    	SkillEFRepository
+      	Handle all data extracts and modifications for skills
+    	CandidateSkillEFRepository
+      	Handle all data extracts and modifications for candidate skills
  
   
    
