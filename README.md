@@ -30,11 +30,14 @@ This includes the following
 
 ## Controllers
       Handle Http requests with json responses
+      
       CandidateController
         Calls methods in CandidateEFRepository
-    	SkillController
+    	
+      SkillController
       	Calls methods in SkillEFRepository
-    	CandidateSkillController
+    	
+      CandidateSkillController
       	Calls methods in CandidateSkillEFRepository 
 ## 	Interfaces
     	ICandidateRepository
@@ -46,13 +49,13 @@ This includes the following
     	CandidateSkill
 ##  	EFHelpers
     	SmartReferralContext
-      	Entity Framework context mappings to class models
+      	  Entity Framework context mappings to class models
     	CandidateEFRepository
-      	Handle all data extracts and modifications for candidate data 
+      	  Handle all data extracts and modifications for candidate data 
     	SkillEFRepository
-      	Handle all data extracts and modifications for skills
+      	  Handle all data extracts and modifications for skills
     	CandidateSkillEFRepository
-      	Handle all data extracts and modifications for candidate skills
+      	  Handle all data extracts and modifications for candidate skills
  
   
    
